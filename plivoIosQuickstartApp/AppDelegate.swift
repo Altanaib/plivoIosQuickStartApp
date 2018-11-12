@@ -7,15 +7,60 @@
 //
 
 import UIKit
+import PushKit
+import AVFoundation
+import Intents
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, UNUserNotificationCenterDelegate  {
+    
+    func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
+        
+    }
+    
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        //For VOIP Notificaitons
+        if #available(iOS 10.0, *)
+        {
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+                // Enable or disable features based on authorization.
+            }
+            application.registerForRemoteNotifications()
+        }
+        
+        //Request Record permission
+        let session = AVAudioSession.sharedInstance()
+        if (session.responds(to: #selector(AVAudioSession.requestRecordPermission(_:)))) {
+            AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
+                if granted {
+                    print("granted AVAudioSession permission")
+                    do {
+                        try session.setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: [])
+                        try session.setActive(true)
+                    }
+                    catch {
+                        
+                        print("Couldn't set Audio session category")
+                    }
+                } else{
+                    print("not granted")
+                }
+            })
+        }
+        
+        let _mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let tabBarContrler: ViewController? = _mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as? ViewController
+        window?.rootViewController = tabBarContrler
+
+        //Phone.sharedInstance.login(withUserName: UserDefaults.standard.object(forKey: kUSERNAME) as! String, andPassword: UserDefaults.standard.object(forKey: kPASSWORD) as! String)
+        
         return true
     }
 
@@ -41,6 +86,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    // Register for VoIP notifications
+    func voipRegistration() {
+        
+        let mainQueue = DispatchQueue.main
+        // Create a push registry object
+        let voipResistry = PKPushRegistry(queue: mainQueue)
+        // Set the registry's delegate to self
+        voipResistry.delegate = (self as? PKPushRegistryDelegate)
+        //Set the push type to VOIP
+        voipResistry.desiredPushTypes = Set<AnyHashable>([PKPushType.voIP]) as? Set<PKPushType>
+    }
+    
+//    func handleDeepLinking(_ phoneNumber: String) {
+//
+//        //Maintaining unique Call Id
+//        //Singleton
+//        CallKitInstance.sharedInstance.callUUID = UUID()
+//        //PlivoCallController handles the incoming/outgoing calls
+//        let _mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let tabBarContrler: UITabBarController? = _mainStoryboard.instantiateViewController(withIdentifier: "tabBarViewController") as? UITabBarController
+//        let plivoVC: ViewController? = (tabBarContrler?.viewControllers?[2] as? ViewController)
+//        tabBarContrler?.selectedViewController = tabBarContrler?.viewControllers?[2]
+//        Phone.sharedInstance.setDelegate(plivoVC!)
+//        plivoVC?.performStartCallAction(with: CallKitInstance.sharedInstance.callUUID!, handle: phoneNumber)
+//        window?.rootViewController = tabBarContrler
+//    }
 }
 
