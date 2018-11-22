@@ -16,15 +16,14 @@
 		28A6F6C5219952DA00FCF06E /* plivoIosQuickstartAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A6F6C4219952DA00FCF06E /* plivoIosQuickstartAppUITests.swift */; };
 		28A6F6D32199586F00FCF06E /* UtilClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A6F6D22199586F00FCF06E /* UtilClass.swift */; };
 		28A6F6D52199588D00FCF06E /* Phone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A6F6D42199588D00FCF06E /* Phone.swift */; };
-		28A6F6D7219959A400FCF06E /* PlivoVoiceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A6F6D6219959A400FCF06E /* PlivoVoiceKit.framework */; };
-		28A6F6D8219959A400FCF06E /* PlivoVoiceKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 28A6F6D6219959A400FCF06E /* PlivoVoiceKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28A6F6E121995FD800FCF06E /* CallKitInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A6F6E021995FD800FCF06E /* CallKitInstance.swift */; };
-		28A6F6E32199602D00FCF06E /* CallInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A6F6E22199602D00FCF06E /* CallInfo.swift */; };
 		28A6F6E621999E3A00FCF06E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A6F6E521999E3A00FCF06E /* AVFoundation.framework */; };
 		28A6F6E821999E4D00FCF06E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A6F6E721999E4D00FCF06E /* AudioToolbox.framework */; };
 		28A6F6EA21999ECA00FCF06E /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A6F6E921999ECA00FCF06E /* PushKit.framework */; };
 		28A6F6EC21999ED200FCF06E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A6F6EB21999ED200FCF06E /* Foundation.framework */; };
 		28A6F6EE21999EE200FCF06E /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A6F6ED21999EE200FCF06E /* CallKit.framework */; };
+		28A6F6F0219AB11300FCF06E /* PlivoVoiceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A6F6EF219AB11300FCF06E /* PlivoVoiceKit.framework */; };
+		28A6F6F3219AB3A700FCF06E /* PlivoVoiceKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 28A6F6EF219AB11300FCF06E /* PlivoVoiceKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,9 +50,18 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				28A6F6D8219959A400FCF06E /* PlivoVoiceKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28A6F6F1219AB33100FCF06E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				28A6F6F3219AB3A700FCF06E /* PlivoVoiceKit.framework in CopyFiles */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -74,17 +82,16 @@
 		28A6F6C6219952DA00FCF06E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28A6F6D22199586F00FCF06E /* UtilClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilClass.swift; sourceTree = "<group>"; };
 		28A6F6D42199588D00FCF06E /* Phone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phone.swift; sourceTree = "<group>"; };
-		28A6F6D6219959A400FCF06E /* PlivoVoiceKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PlivoVoiceKit.framework; path = plivoIosQuickstartApp/PlivoVoiceKit.framework; sourceTree = "<group>"; };
 		28A6F6DB21995BEE00FCF06E /* plivoIosQuickstartApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "plivoIosQuickstartApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		28A6F6DE21995C2600FCF06E /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		28A6F6DF21995F6E00FCF06E /* plivoIosQuickstartApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = plivoIosQuickstartApp.entitlements; sourceTree = "<group>"; };
 		28A6F6E021995FD800FCF06E /* CallKitInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallKitInstance.swift; sourceTree = "<group>"; };
-		28A6F6E22199602D00FCF06E /* CallInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallInfo.swift; sourceTree = "<group>"; };
 		28A6F6E521999E3A00FCF06E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		28A6F6E721999E4D00FCF06E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		28A6F6E921999ECA00FCF06E /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		28A6F6EB21999ED200FCF06E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		28A6F6ED21999EE200FCF06E /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
+		28A6F6EF219AB11300FCF06E /* PlivoVoiceKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PlivoVoiceKit.framework; path = plivoIosQuickstartApp/PlivoVoiceKit.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,12 +99,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28A6F6F0219AB11300FCF06E /* PlivoVoiceKit.framework in Frameworks */,
 				28A6F6EE21999EE200FCF06E /* CallKit.framework in Frameworks */,
 				28A6F6EC21999ED200FCF06E /* Foundation.framework in Frameworks */,
 				28A6F6EA21999ECA00FCF06E /* PushKit.framework in Frameworks */,
 				28A6F6E821999E4D00FCF06E /* AudioToolbox.framework in Frameworks */,
 				28A6F6E621999E3A00FCF06E /* AVFoundation.framework in Frameworks */,
-				28A6F6D7219959A400FCF06E /* PlivoVoiceKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,7 +128,6 @@
 		28A6F698219952D600FCF06E = {
 			isa = PBXGroup;
 			children = (
-				28A6F6D6219959A400FCF06E /* PlivoVoiceKit.framework */,
 				28A6F6A3219952D600FCF06E /* plivoIosQuickstartApp */,
 				28A6F6B8219952DA00FCF06E /* plivoIosQuickstartAppTests */,
 				28A6F6C3219952DA00FCF06E /* plivoIosQuickstartAppUITests */,
@@ -155,7 +161,6 @@
 				28A6F6D42199588D00FCF06E /* Phone.swift */,
 				28A6F6DE21995C2600FCF06E /* Constants.h */,
 				28A6F6E021995FD800FCF06E /* CallKitInstance.swift */,
-				28A6F6E22199602D00FCF06E /* CallInfo.swift */,
 			);
 			path = plivoIosQuickstartApp;
 			sourceTree = "<group>";
@@ -181,6 +186,7 @@
 		28A6F6E421999E3A00FCF06E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				28A6F6EF219AB11300FCF06E /* PlivoVoiceKit.framework */,
 				28A6F6ED21999EE200FCF06E /* CallKit.framework */,
 				28A6F6EB21999ED200FCF06E /* Foundation.framework */,
 				28A6F6E921999ECA00FCF06E /* PushKit.framework */,
@@ -201,6 +207,7 @@
 				28A6F69E219952D600FCF06E /* Frameworks */,
 				28A6F69F219952D600FCF06E /* Resources */,
 				28A6F6D9219959A400FCF06E /* Embed Frameworks */,
+				28A6F6F1219AB33100FCF06E /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -332,7 +339,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				28A6F6D52199588D00FCF06E /* Phone.swift in Sources */,
-				28A6F6E32199602D00FCF06E /* CallInfo.swift in Sources */,
 				28A6F6D32199586F00FCF06E /* UtilClass.swift in Sources */,
 				28A6F6A7219952D600FCF06E /* ViewController.swift in Sources */,
 				28A6F6A5219952D600FCF06E /* AppDelegate.swift in Sources */,
@@ -516,6 +522,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A277824BB5;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/plivoIosQuickstartApp",
@@ -544,6 +551,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A277824BB5;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/plivoIosQuickstartApp",

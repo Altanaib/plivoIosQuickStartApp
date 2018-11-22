@@ -26,7 +26,6 @@
 	<string>plivo would liek to use your photo library</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>audio</string>
 		<string>remote-notification</string>
 		<string>voip</string>
 	</array>
@@ -37,7 +36,6 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
-		<string></string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
