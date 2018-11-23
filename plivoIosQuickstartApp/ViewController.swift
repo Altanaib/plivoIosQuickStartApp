@@ -40,6 +40,10 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
         print("ViewController did load")
         Phone.sharedInstance.login(withUserName: "altanai466928765560244342301141",
                                    andPassword: "12345678")
+        CallKitInstance.sharedInstance.callKitProvider?.setDelegate(self, queue: DispatchQueue.main)
+        CallKitInstance.sharedInstance.callObserver?.setDelegate(self, queue: DispatchQueue.main)
+        //Add Call Interruption observers
+        self.addObservers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -68,12 +72,9 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     func onLogin() {
         DispatchQueue.main.async(execute: {() -> Void in
             UtilClass.setUserAuthenticationStatus(true)
+            let appDelegate: AppDelegate? = (UIApplication.shared.delegate as? AppDelegate)
+            appDelegate?.voipRegistration()
             print("Ready to make a call")
-           
-            CallKitInstance.sharedInstance.callKitProvider?.setDelegate(self, queue: DispatchQueue.main)
-            CallKitInstance.sharedInstance.callObserver?.setDelegate(self, queue: DispatchQueue.main)
-            //Add Call Interruption observers
-            self.addObservers()
         })
     }
     
@@ -118,7 +119,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
         {
         case AVAudioSession.RecordPermission.granted:
             
-            print("Permission is granted to AVAudioSession.RecordPermission ")
+            print("onIncomingCall - Permission is granted to AVAudioSession.RecordPermission ")
             
             DispatchQueue.main.async(execute: {() -> Void in
                 self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?[2]
@@ -131,7 +132,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
             
             if !(incCall != nil) && !(outCall != nil) {
                 /* log it */
-                print("Incoming Call from %@", incoming.fromContact);
+                print("onIncomingCall - from %@", incoming.fromContact);
                 /* assign incCall var */
                 incCall = incoming
                 outCall = nil
@@ -148,13 +149,13 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
             break
             
         case AVAudioSession.RecordPermission.denied:
-            print("Pemission denied to AVAudioSession.RecordPermission")
-            print("Please go to settings and turn on Microphone service for incoming/outgoing calls.")
+            print("onIncomingCall - Pemission denied to AVAudioSession.RecordPermission")
+            print("onIncomingCall - Please go to settings and turn on Microphone service for incoming/outgoing calls.")
             incoming.reject()
             break
             
         case AVAudioSession.RecordPermission.undetermined:
-            print("Request permission here")
+            print("onIncomingCall - Request permission here")
             break
             
         default:
@@ -263,11 +264,11 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
         switch AVAudioSession.sharedInstance().recordPermission {
             
         case AVAudioSession.RecordPermission.granted:
-            print("performStartCallAction AVAudioSession - Permission granted");
+            print("Outgoing call - performStartCallAction AVAudioSession - Permission granted");
             hideActiveCallView()
             unhideActiveCallView()
             
-            print("performStartCallAction  - Outgoing call uuid is: %@", uuid);
+            print("Outgoing call - uuid is: %@", uuid);
             CallKitInstance.sharedInstance.callKitProvider?.setDelegate(self, queue: DispatchQueue.main)
             CallKitInstance.sharedInstance.callObserver?.setDelegate(self, queue: DispatchQueue.main)
             if uuid == nil || handle == nil {
@@ -284,10 +285,10 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
             let transaction = CXTransaction(action:startCallAction)
             CallKitInstance.sharedInstance.callKitCallController?.request(transaction, completion: {(_ error: Error?) -> Void in
                 if error != nil {
-                    print("StartCallAction transaction request failed: %@", error.debugDescription);
+                    print("Outgoing call - StartCallAction transaction request failed: %@", error.debugDescription);
                 }
                 else {
-                    print("StartCallAction transaction request successful");
+                    print("Outgoing call - StartCallAction transaction request successful");
                     let callUpdate = CXCallUpdate()
                     callUpdate.remoteHandle = callHandle
                     callUpdate.supportsDTMF = true
@@ -299,17 +300,19 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
                         self.callerNameLabel.text = handle
                         self.callStateLabel.text = "Calling..."
                         self.unhideActiveCallView()
+                        print("Outgoing call - performStartCallAction callUpdate" , callUpdate);
                         CallKitInstance.sharedInstance.callKitProvider?.reportCall(with: uuid, updated: callUpdate)
                     })
                 }
             })
             break
         case AVAudioSession.RecordPermission.denied:
-            print("Please go to settings and turn on Microphone service for incoming/outgoing calls.");
+            print("Outgoing call - Please go to settings and turn on Microphone service for incoming/outgoing calls.");
             break
         case AVAudioSession.RecordPermission.undetermined:
             // This is the initial state before a user has made any choice
             // You can use this spot to request permission here if you want
+            print("Outgoing call - RecordPermission is turn off for Microphone service on incoming/outgoing calls.");
             break
         default:
             break
@@ -331,7 +334,6 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
         CallKitInstance.sharedInstance.callKitProvider?.reportNewIncomingCall(with: uuid, update: callUpdate, completion: {(_ error: Error?) -> Void in
             if error != nil {
                 print("Failed to report incoming call successfully: %@", error.debugDescription);
-                //[UtilityClass makeToast:kREQUESTFAILED];
                 Phone.sharedInstance.stopAudioDevice()
                 if (self.incCall != nil) {
                     if self.incCall?.state != Ongoing {
@@ -442,8 +444,8 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
         Phone.sharedInstance.configureAudioSession()
         //Set extra headers
         let extraHeaders: [AnyHashable: Any] = [
-            "X-PH-Header1" : "Test Altanai Header1",
-            "X-PH-Header2" : "Test Alt header2"
+            "X-PH-Header1" : "Value1",
+            "X-PH-Header2" : "Value2"
         ]
         
         let dest: String = action.handle.value
@@ -453,7 +455,6 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
         action.fulfill(withDateStarted: Date())
         if (error != nil) {
             outCall = nil
-            //UtilClass.makeToast((error?.localizedDescription)!)
             print(error?.localizedDescription)
             performEndCallAction(with: CallKitInstance.sharedInstance.callUUID!)
         }
@@ -748,18 +749,11 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
         dialPadView.isHidden = false
         userNameTextField.isHidden = false
         userNameTextField.isEnabled = true
-        
-//        tabBarController?.tabBar.isHidden = false
         callButton.setImage(UIImage(named: "MakeCall.png"), for: .normal)
-
-//        timer?.reset()
-//        timer?.removeFromSuperview()
-//        timer = nil
         callStateLabel.text = "Calling..."
         dialPadView.alpha = 1.0
         dialPadView.backgroundColor = UIColor.white
-        
-        //handleSpeaker()
+        handleSpeaker()
         resetCallButtons()
     }
     
@@ -781,7 +775,6 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
         holdButton.isHidden = false
         dialPadView.isHidden = true
         userNameTextField.isHidden = true
-//        tabBarController?.tabBar.isHidden = true
         callButton.setImage(UIImage(named: "EndCall.png"), for: .normal)
     }
     
@@ -791,7 +784,6 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
      * AVAudioSessionInterruptionTypeBegan
      * AVAudioSessionInterruptionTypeEnded
      */
-    
     @objc func handleInterruption(_ notification: Notification)
     {
         

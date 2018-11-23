@@ -38,6 +38,13 @@ class Phone {
         endpoint.relayVoipPushNotification(pushdata)
     }
     
+    /*
+     * To make Call
+     * destination number or sipuri
+     * extra headers
+     * error reference
+     * returns outgoing call object
+     */
     func call(withDest dest: String, andHeaders headers: [AnyHashable: Any], error: inout NSError?) -> PlivoOutgoing {
         /* construct SIP URI */
         let sipUri: String = "sip:\(dest)\(kENDPOINTURL)"
@@ -67,7 +74,7 @@ class Phone {
     }
     
     /*
-     * To Start Audio service
+     * To Stop Audio service
      * To handle Audio Interruptions
      * AVAudioSessionInterruptionTypeBegan
      */

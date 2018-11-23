@@ -79,8 +79,8 @@
                                     <action selector="hideButtonTapped:" destination="BYZ-38-t0r" eventType="touchDragInside" id="zPe-M5-VxB"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" highlighted="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="altanai4751878959907821" placeholder="altanai031400569310825886290" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="79K-zJ-Aoj">
-                                <rect key="frame" x="27" y="55" width="348" height="42"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" highlighted="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="9871204072" placeholder="altanai031400569310825886290" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="79K-zJ-Aoj">
+                                <rect key="frame" x="-61" y="55" width="525" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="36"/>
                                 <textInputTraits key="textInputTraits"/>
