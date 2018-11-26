@@ -555,6 +555,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
                 }
                 action.fulfill()
                 self.isItUserAction = false
+                self.hideActiveCallView()
             }
             else {
                 print("GSM - provider:performEndCallAction:");
