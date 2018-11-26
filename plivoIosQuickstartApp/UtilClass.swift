@@ -23,15 +23,10 @@ class UtilClass: NSObject
     
     static func isNetworkAvailable() -> Bool
     {
-        
         guard let flags = getFlags() else { return false }
-        
         let isReachable = flags.contains(.reachable)
-        
         let needsConnection = flags.contains(.connectionRequired)
-        
         return (isReachable && !needsConnection)
-        
     }
     
     static func getFlags() -> SCNetworkReachabilityFlags?
@@ -138,8 +133,6 @@ class UtilClass: NSObject
         
         activityIndicator.stopAnimating()
         container.removeFromSuperview()
-        
-        
     }
     
     /*

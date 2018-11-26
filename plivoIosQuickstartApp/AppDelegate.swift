@@ -19,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
     }
     
-
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -40,17 +39,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         if (session.responds(to: #selector(AVAudioSession.requestRecordPermission(_:)))) {
             AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
                 if granted {
-                    print("granted AVAudioSession permission")
+                    print("AVAudioSession permission - granted ")
                     do {
                         try session.setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: [])
                         try session.setActive(true)
                     }
                     catch {
-                        
-                        print("Couldn't set Audio session category")
+                        print("AVAudioSession permission - Couldn't set Audio session category")
                     }
                 } else{
-                    print("not granted")
+                    print("AVAudioSession permission - not granted")
                 }
             })
         }
@@ -99,7 +97,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     }
     
 //    func handleDeepLinking(_ phoneNumber: String) {
-//
 //        //Maintaining unique Call Id
 //        //Singleton
 //        CallKitInstance.sharedInstance.callUUID = UUID()
