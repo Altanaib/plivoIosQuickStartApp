@@ -12,7 +12,7 @@ import PlivoVoiceKit
 import AVFoundation
 
 class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelegate, PlivoEndpointDelegate {
-
+    @IBOutlet weak var loggedinAsLabel: UILabel!
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var callerNameLabel: UILabel!
     @IBOutlet weak var callStateLabel: UILabel!
@@ -35,13 +35,25 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     
     var isSpeakerOn: Bool = false
     
+    // -----------------------------------------
+    //Replace the following values with your SIP URI endpoint and its password
+    // -----------------------------------------
+    var username: NSString = "altanai466928765560244342301141"
+    var pass: NSString = "12345678"
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("ViewController did load")
-        Phone.sharedInstance.login(withUserName: "altanai466928765560244342301141",
-                                   andPassword: "12345678")
+        
+        //Login
+        Phone.sharedInstance.login(withUserName: username as String,
+                                   andPassword: pass as String)
+        
+        // Initiate callKitProvider and callObserver
         CallKitInstance.sharedInstance.callKitProvider?.setDelegate(self, queue: DispatchQueue.main)
         CallKitInstance.sharedInstance.callObserver?.setDelegate(self, queue: DispatchQueue.main)
+        
         //Add Call Interruption observers
         self.addObservers()
     }
@@ -74,6 +86,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
             UtilClass.setUserAuthenticationStatus(true)
             let appDelegate: AppDelegate? = (UIApplication.shared.delegate as? AppDelegate)
             appDelegate?.voipRegistration()
+            self.loggedinAsLabel.text = self.username as String;
             print("Ready to make a call")
         })
     }
@@ -131,18 +144,18 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
             CallKitInstance.sharedInstance.callObserver?.setDelegate(self, queue: DispatchQueue.main)
             
             if !(incCall != nil) && !(outCall != nil) {
-                /* log it */
                 print("onIncomingCall - from %@", incoming.fromContact);
-                /* assign incCall var */
+                
+                // assign incCall to incoming call
                 incCall = incoming
                 outCall = nil
                 CallKitInstance.sharedInstance.callUUID = UUID()
+                
+                // Report incoming call to CallKitProvider
                 reportIncomingCall(from: incoming.fromUser, with: CallKitInstance.sharedInstance.callUUID!)
             }
             else {
-                /*
-                 * Reject the call when we already have active ongoing call
-                 */
+                 // Reject the call when we already have active ongoing call
                 incoming.reject()
                 return
             }
@@ -169,7 +182,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
      */
     
     func onIncomingCallHangup(_ incoming: PlivoIncoming) {
-        print("- Incoming call ended");
+        print("- Incoming call ended ", incoming.callId);
         if (incCall != nil) {
             self.isItUserAction = true
             performEndCallAction(with: CallKitInstance.sharedInstance.callUUID!)
@@ -181,7 +194,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
      * onIncomingCallRejected implementation.
      */
     func onIncomingCallRejected(_ incoming: PlivoIncoming) {
-        /* log it */
+        print("- On Incoming Call Rejected " , incoming.callId);
         self.isItUserAction = true
         performEndCallAction(with: CallKitInstance.sharedInstance.callUUID!)
         incCall = nil
@@ -192,8 +205,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
      */
     func onOutgoingCallAnswered(_ call: PlivoOutgoing) {
 
-        print("- On outgoing call answered");
-        print("Call id in Answerd is:" , call.callId)
+        print("- On outgoing call answered " , call.callId)
         
         DispatchQueue.main.async(execute: {() -> Void in
             self.muteButton.isEnabled = true
@@ -211,18 +223,14 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     
     func onOutgoingCallHangup(_ call: PlivoOutgoing) {
         
-        print("- On outgoing call Hangup");
-        print("Call id in Hangup is:" , call.callId)
+        print("- On outgoing call Hangup " , call.callId)
 
         self.isItUserAction = true
         performEndCallAction(with: CallKitInstance.sharedInstance.callUUID!)
     }
     
     func onCalling(_ call: PlivoOutgoing) {
-        
-        print("- On outgoing Caling");
-        print("Call id in onCalling is:" , call.callId)
-       
+        print("- On outgoing Caling " , call.callId)
     }
     
     /**
@@ -230,8 +238,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
      */
     func onOutgoingCallRinging(_ call: PlivoOutgoing) {
         
-        print("On outgoing Ringing");
-        print("Call id in Ringing is:" , call.callId)
+        print("On outgoing Ringing" , call.callId)
         
         DispatchQueue.main.async(execute: {() -> Void in
             self.callStateLabel.text = "Ringing..."
@@ -398,7 +405,6 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
                     })
                 }
                 else {
-                    
                     print("EndCallAction transaction request successful");
                 }
             })
