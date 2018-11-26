@@ -199,6 +199,9 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
             self.muteButton.isEnabled = true
             self.holdButton.isEnabled = true
             self.callStateLabel.text = "Call conneted"
+            
+            // Start Audio Device
+            Phone.sharedInstance.startAudioDevice()
         })
     }
     
@@ -665,7 +668,6 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     @IBAction func holdButtonTapped(_ sender: Any) {
         
         let img: UIImage? = (sender as AnyObject).image(for: .normal)
-        
         let data1: NSData? = img!.pngData() as NSData?
         
         if (data1?.isEqual(UIImage(named: "UnholdIcon.png")!.pngData()))! {
@@ -700,9 +702,7 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     
     
     @IBAction func speakerButtonTapped(_ sender: Any) {
-        
         handleSpeaker()
-        
     }
     
     
