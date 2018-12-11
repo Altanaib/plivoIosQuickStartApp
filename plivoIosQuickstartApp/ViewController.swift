@@ -40,7 +40,6 @@ class ViewController: UIViewController, CXProviderDelegate, CXCallObserverDelega
     var username: NSString = "altanai466928765560244342301141"
     var pass: NSString = "12345678"
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("ViewController did load")
