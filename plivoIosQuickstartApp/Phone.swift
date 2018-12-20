@@ -9,7 +9,6 @@
 import Foundation
 import PlivoVoiceKit
 
-
 class Phone {
     
     static let sharedInstance = Phone()
@@ -19,7 +18,6 @@ class Phone {
     
     // To register with SIP Server
     func login(withUserName userName: String, andPassword password: String) {
-        //UtilClass.makeToastActivity()
         endpoint.login(userName, andPassword: password)
     }
     
@@ -61,6 +59,7 @@ class Phone {
     
     //To Configure Audio
     func configureAudioSession() {
+        print("----------------- configureAudioSession ")
         endpoint.configureAudioDevice()
     }
     
@@ -70,6 +69,7 @@ class Phone {
      * AVAudioSessionInterruptionTypeEnded
      */
     func startAudioDevice() {
+        print("----------------- startAudioDevice ")
         endpoint.startAudioDevice()
     }
     
@@ -79,6 +79,7 @@ class Phone {
      * AVAudioSessionInterruptionTypeBegan
      */
     func stopAudioDevice() {
+        print("----------------- stopAudioDevice ")
         endpoint.stopAudioDevice()
     }
 }

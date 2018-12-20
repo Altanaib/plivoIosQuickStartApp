@@ -25,27 +25,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         // Override point for customization after application launch.
 
         //For VOIP Notificaitons
-        if #available(iOS 10.0, *)
-        {
-            let center = UNUserNotificationCenter.current()
-            center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
-                // Enable or disable features based on authorization.
-            }
-            application.registerForRemoteNotifications()
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+            // Enable or disable features based on authorization.
         }
+        application.registerForRemoteNotifications()
         
         //Request Record permission
-        let session = AVAudioSession.sharedInstance()
-        if (session.responds(to: #selector(AVAudioSession.requestRecordPermission(_:)))) {
+        //audio session acts as an intermediary between your app and the operating system—and, in turn, the underlying audio hardware.
+        let audioSession = AVAudioSession.sharedInstance()
+        if (audioSession.responds(to: #selector(AVAudioSession.requestRecordPermission(_:)))) {
             AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
                 if granted {
                     print("AVAudioSession permission - granted ")
                     do {
-                        //try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                        //try session.setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playAndRecord)), mode: AVAudioSession.Mode.default)
+                        //try session.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.default)
+                        //try session.setCategory(AVAudioSession.Category.playAndRecord)
+                        try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.voiceChat, options: .defaultToSpeaker)
+                        //try session.setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: [])
                         
-                        //try session.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.voiceChat, options: AVAudioSession.CategoryOptions.defaultToSpeaker)
-                        try session.setCategory(AVAudioSession.Category.playAndRecord, mode: .default, options: [])
-                        try session.setActive(true)
+                        try audioSession.setActive(true)
                     }
                     catch {
                         print("AVAudioSession permission - Couldn't set Audio session category")
@@ -57,10 +57,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
         
         let _mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let tabBarContrler: ViewController? = _mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as? ViewController
-        window?.rootViewController = tabBarContrler
-
-        //Phone.sharedInstance.login(withUserName: UserDefaults.standard.object(forKey: kUSERNAME) as! String, andPassword: UserDefaults.standard.object(forKey: kPASSWORD) as! String)
+        let controller: ViewController? = _mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as? ViewController
+        window?.rootViewController = controller
         
         return true
     }
@@ -89,7 +87,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
 
     // Register for VoIP notifications
     func voipRegistration() {
-        
         let mainQueue = DispatchQueue.main
         // Create a push registry object
         let voipResistry = PKPushRegistry(queue: mainQueue)
@@ -98,19 +95,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         //Set the push type to VOIP
         voipResistry.desiredPushTypes = Set<AnyHashable>([PKPushType.voIP]) as? Set<PKPushType>
     }
-    
-//    func handleDeepLinking(_ phoneNumber: String) {
-//        //Maintaining unique Call Id
-//        //Singleton
-//        CallKitInstance.sharedInstance.callUUID = UUID()
-//        //PlivoCallController handles the incoming/outgoing calls
-//        let _mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let tabBarContrler: UITabBarController? = _mainStoryboard.instantiateViewController(withIdentifier: "tabBarViewController") as? UITabBarController
-//        let plivoVC: ViewController? = (tabBarContrler?.viewControllers?[2] as? ViewController)
-//        tabBarContrler?.selectedViewController = tabBarContrler?.viewControllers?[2]
-//        Phone.sharedInstance.setDelegate(plivoVC!)
-//        plivoVC?.performStartCallAction(with: CallKitInstance.sharedInstance.callUUID!, handle: phoneNumber)
-//        window?.rootViewController = tabBarContrler
-//    }
-}
 
+}
